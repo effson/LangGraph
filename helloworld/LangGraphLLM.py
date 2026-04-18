@@ -18,7 +18,7 @@ load_dotenv()
 
 # ========== 1. 定义状态（State） ==========
 # 存储对话消息
-class AtguiguState(TypedDict):
+class State(TypedDict):
     # messages 是一个消息列表，Annotated + add_messages 表示支持自动追加消息
     messages: Annotated[List, add_messages]
 
@@ -32,12 +32,12 @@ llm = init_chat_model(
 
 # ========== 3. 定义节点函数 ==========
 # 节点：调用大模型，并把回复加入到 state["messages"] 里
-def model_node(state: AtguiguState):
+def model_node(state: State):
     reply = llm.invoke(state["messages"])   # 输入历史消息，调用模型
     return {"messages": [reply]}            # 返回新消息，自动加到 state
 
 # ========== 4. 构建图结构 ==========
-graph = StateGraph(AtguiguState)            # 初始化图，指定 State 类型
+graph = StateGraph(State)            # 初始化图，指定 State 类型
 
 graph.add_node("model", model_node)         # 添加一个节点，名字叫 "model"
 
