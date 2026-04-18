@@ -5,28 +5,23 @@ from langgraph.cache.memory import InMemoryCache
 from langgraph.types import CachePolicy
 
 
-# 定义状态类，也就是你的业务实体entity
+# 状态类，业务实体entity
 class State(TypedDict):
     x: int
     result: int
 
-# 创建图
 builder = StateGraph(State)
 
-# 定义节点：模拟耗时计算（sleep3秒）
 def expensive_node(state: State) -> dict[str, int]:
     time.sleep(3)
     return {"result": state["x"] * 2}
 
 #     builder.add_node("node1", node_default_1)
-
-# 添加节点
 builder.add_node(node="expensive_node",action=expensive_node,
     # 不用传key_fn，底层自动用默认逻辑
     cache_policy=CachePolicy(ttl=8)
 )
 
-# 设置入口和出口
 builder.set_entry_point("expensive_node")
 builder.set_finish_point("expensive_node")
 
