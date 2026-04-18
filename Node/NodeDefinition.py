@@ -56,3 +56,42 @@ print()
 initial_state={"process_data": 5}
 result= graph.invoke(initial_state)
 print(f"最后的结果是:{result}")
+
+"""
+{('input', 'process'), ('__start__', 'input'), ('process', '__end__')}
+{
+'input': 
+    StateNodeSpec(runnable=input(tags=None, recurse=True, explode_args=False, func_accepts={}), metadata=None, input_schema=<class '__main__.GraphState'>, 
+                retry_policy=None, cache_policy=None, ends=(), defer=False), 
+'process': 
+    StateNodeSpec(runnable=process(tags=None, recurse=True, explode_args=False, func_accepts={}), metadata=None, input_schema=<class '__main__.GraphState'>, 
+                retry_policy=RetryPolicy(initial_interval=1, backoff_factor=2, max_interval=128.0, max_attempts=3, jitter=True, retry_on=[<class 'requests.exceptions.RequestException'>, <class 'requests.exceptions.Timeout'>]), 
+                cache_policy=None, ends=(), defer=False)
+}
++-----------+  
+| __start__ |  
++-----------+  
+      *        
+      *        
+      *        
+  +-------+    
+  | input |    
+  +-------+    
+      *        
+      *        
+      *        
+ +---------+   
+ | process |   
+ +---------+   
+      *        
+      *        
+      *        
+ +---------+   
+ | __end__ |   
+ +---------+   
+None
+
+input_node收到的初始值:{'process_data': 5}
+{'process_data': {'input': 'input_value'}} 100 test
+最后的结果是:{'process_data': {'process': 'process_value'}}
+"""
