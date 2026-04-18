@@ -134,3 +134,41 @@ def run_demo():
 # 程序入口
 if __name__ == "__main__":
     run_demo()
+
+"""
+=== LangGraph 节点重试策略完整演示===
+--------------------------------------------------------------------------------
+
+NO.1. 使用默认重试策略:
+   默认策略会对除特定异常外的所有异常进行重试
+   不会重试的异常包括: ValueError, TypeError, ArithmeticError, ImportError,
+                     LookupError, NameError, SyntaxError, RuntimeError,
+                     ReferenceError, StopIteration, StopAsyncIteration, OSError
+
+测试默认重试策略:
+尝试调用API，这是第 1 次尝试
+尝试调用API，这是第 2 次尝试
+尝试调用API，这是第 3 次尝试
+最终结果: {'result': 'API调用成功，经过 3 次尝试'}
+
+NO.2. 使用自定义重试策略:
+   自定义策略只对特定错误进行重试
+
+测试自定义重试策略:
+尝试调用API，这是第 1 次尝试
+########################:  模拟API调用失败abcd (尝试 1)
+捕获到可重试异常: 模拟API调用失败abcd (尝试 1)
+尝试调用API，这是第 2 次尝试
+########################:  模拟API调用失败abcd (尝试 2)
+捕获到可重试异常: 模拟API调用失败abcd (尝试 2)
+尝试调用API，这是第 3 次尝试
+最终结果: {'result': 'API调用成功，经过 3 次尝试'}
+
+NO.3. 测试不会重试的异常类型:
+测试 ValueError（默认策略不会重试）:
+调用会抛出 ValueError 的节点
+最终失败: ValueError: 模拟 ValueError 异常
+
+--------------------------------------------------------------------------------
+=== 演示结束 ===
+"""
