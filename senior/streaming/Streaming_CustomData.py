@@ -33,17 +33,28 @@ graph = (
     .compile()
 )
 
+print("stream_mode = [custom] : ")
 # Set stream_mode="custom" to receive the custom data in the stream
-# for chunk in graph.stream({"query": "example"}, stream_mode=["custom"]):
-#     print(chunk)
-#
-# for chunk in graph.stream({"query": "example"}, stream_mode=["updates", "custom"]):
-#     print(chunk)
-#
+for chunk in graph.stream({"query": "example"}, stream_mode=["custom"]):
+    print(chunk)
+print()
+print("stream_mode = [update, custom] : ")
+for chunk in graph.stream({"query": "example"}, stream_mode=["updates", "custom"]):
+    print(chunk)
+print()
+print("stream_mode = [values, custom] : ")
 for chunk in graph.stream({"query": "example"}, stream_mode=["values", "custom"]):
     print(chunk)
 
 """
+stream_mode = [custom] : 
+('custom', {'custom_key': '这是自定义输入的内容，O(∩_∩)O'})
+
+stream_mode = [update, custom] : 
+('custom', {'custom_key': '这是自定义输入的内容，O(∩_∩)O'})
+('updates', {'node': {'answer': 'some data'}})
+
+stream_mode = [values, custom] : 
 ('values', {'query': 'example'})
 ('custom', {'custom_key': '这是自定义输入的内容，O(∩_∩)O'})
 ('values', {'query': 'example', 'answer': 'some data'})
