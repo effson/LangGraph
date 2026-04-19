@@ -2,7 +2,9 @@ import os
 from langchain.chat_models import init_chat_model
 from langgraph.checkpoint.memory import InMemorySaver
 from langchain.agents import create_agent
+from dotenv import load_dotenv
 
+load_dotenv()
 # ==========定义大模型 ==========
 llm = init_chat_model(
     model="qwen-plus",
@@ -24,3 +26,13 @@ msg1["messages"][-1].pretty_print()
 # 6. 第二轮（继续同一 thread）
 msg2 = agent.invoke({"messages": [("user", "我叫什么？我喜欢做什么？")]}, config)
 msg2["messages"][-1].pretty_print()
+
+
+"""
+================================== Ai Message ==================================
+
+你好张三！很高兴认识一位足球爱好者，祝你绿茵场上挥洒汗水、享受快乐！
+================================== Ai Message ==================================
+
+你叫张三，喜欢足球！⚽
+"""
