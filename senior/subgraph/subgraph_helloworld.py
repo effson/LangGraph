@@ -1,10 +1,7 @@
 """
-在LangGraph中，一个Graph除了可以单独使用，还可以作为一个Node，嵌入到一个Graph中。这种用法就称为子图。
-通过子图，我们可以更好的重用Graph，构建更复杂的工作流。尤其在构建多Agent系统时非常有用。
-在大型项目中，通常都是由一个团队专门开发Agent，再通过其他团队来完成Agent整合。
+LangGraph中一个Graph可以单独使用，还可以作为一个Node嵌入到一个Graph中,称为子图。子图和Node没有太多的区别。
 
-使用子图时，基本和使用Node没有太多的区别。唯一需要注意的是，当触发了SubGraph代表的Node后，
-实际上是相当于重新调用了一次subgraph.invoke(state)方法
+!!!唯一需要注意的是，触发SubGraph代表的Node后，重新调用了一次subgraph.invoke(state)方法
 
 案例说明：
     定义一个子图节点处理函数 sub_node，它接收一个状态对象并返回包含子图响应消息的新状态。
